@@ -10,7 +10,7 @@ RUN apt-get -y update \
 # Install Python dependencies
 COPY requirements_dev.txt /app/
 WORKDIR /app
-RUN pip install -r requirements_dev.txt
+RUN pip3 install -r requirements_dev.txt
 
 ### Final image
 FROM python:3.8-slim
@@ -27,9 +27,12 @@ RUN apt-get update \
   libgdk-pixbuf2.0-0 \
   shared-mime-info \
   mime-support \
+  gettext \
+  libpq-dev \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+RUN pip3 install psycopg2-binary
 RUN mkdir -p /app/media /app/static \
   && chown -R saleor:saleor /app/
 
